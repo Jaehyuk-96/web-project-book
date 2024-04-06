@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.chunjae1.mapper.BoardMapper">
+    <select id="getList" resultType="kr.co.chunjae1.domain.BoardDTO">
+        select * from tb_board
+    </select>
+
+    <insert id="insert" parameterType="kr.co.chunjae1.domain.BoardDTO" useGeneratedKeys="true" keyProperty="bno">
+        insert into tb_board(title, content, writer) values(#{title}, #{content}, #{writer})
+    </insert>
+
+    <select id="read" parameterType="Long" resultType="kr.co.chunjae1.domain.BoardDTO">
+        select * from tb_board where bno = #{bno}
+    </select>
+
+    <delete id="delete" parameterType="Long" >
+        delete from tb_board where bno = #{bno}
+    </delete>
+
+    <update id="update" parameterType="kr.co.chunjae1.domain.BoardDTO">
+        update tb_board set title = #{title}, content = #{content}, writer =#{writer}, updateDate = now() where bno = #{bno}
+    </update>
+</mapper>
