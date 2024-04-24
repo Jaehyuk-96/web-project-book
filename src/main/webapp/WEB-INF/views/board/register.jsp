@@ -34,9 +34,8 @@
                     <div class="form-group">
                         <label>Writer</label> <input class="form-control" name='writer'>
                     </div>
-                    <button type="submit" class="btn btn-default">Submit
-                        Button</button>
-                    <button type="reset" class="btn btn-default">Reset Button</button>
+                    <button type="submit" class="btn btn-default">등록하기</button>
+                    <button type="reset" class="btn btn-default">리셋</button>
                 </form>
 
             </div>

@@ -21,8 +21,7 @@
             <!-- /.panel-heading -->
             <div class="panel-body">
 
-                <form id ='operForm' action="/board/modify" method="get">
-                    <input type = 'hidden' id='bno' name='bno' value ='<c:out value="${boardDTO.bno}"/>'>
+                <form role="form" action="/board/modify" method="post">
 
                     <div class="form-group">
                         <label>Bno</label> <input class="form-control" name='bno'
@@ -31,23 +30,22 @@
 
                     <div class="form-group">
                         <label>Title</label> <input class="form-control" name='title'
-                                                    value = '<c:out value="${boardDTO.title}"/>' readonly = "readonly">
+                                                    value = '<c:out value="${boardDTO.title}"/>' >
                     </div>
 
                     <div class="form-group">
                         <label>Text area</label>
-                        <textarea class="form-control" rows="3" name='content' readonly = "readonly">
+                        <textarea class="form-control" rows="3" name='content'>
                             <c:out value="${boardDTO.content}"/></textarea>
                     </div>
 
                     <div class="form-group">
                         <label>Writer</label> <input class="form-control"
-                                                     name='writer' value='<c:out value="${boardDTO.writer}"/>' readonly="readonly">
+                                                     name='writer' value='<c:out value="${boardDTO.writer}"/>' readonly = "readonly">
                     </div>
-                    <button data-oper="modify" class="btn btn-default">수정하기</button>
-                    <button data-oper="list" class = "btn btn-info">List</button>
-<%--                    나중을 위해서 링크를 거는게아니라 javascript로 바꿈--%>
-
+                    <button type ="submit" data-oper="modify" class="btn btn-default" >수정하기</button>
+                    <button type ="submit" data-oper="remove" class="btn btn-default" >삭제하기</button>
+                    <button type="submit" data-oper="list" class="btn btn-default" >게시판가기</button>
                 </form>
 
             </div>
@@ -61,17 +59,29 @@
 <!-- /.row -->
 
 <script type="text/javascript">
-    $(documnet).ready(function(){
-        var operForm = $("#operForm");
-        $("button[data-oper='modify']").on("click", function(e){
-            operForm.attr("action","/board/modify").submit();
-        });
+    //자바스크립트를 이용하여 버튼클릭시 url이동
+    $(document).ready(function(){
+        var formObj = $("form");
 
-        $("button[data-oper='list']").on("click", function(e) {
-            operForm.find("#bno").remove();
-            operForm.attr("action", "/board/list")
-            operForm.submit();
-        });
-    });
+        $('button').on("click", function(e){
+
+            e.preventDefault();
+
+            var operation = $(this).data("oper");
+
+            console.log(operation);
+
+            if(operation === "remove"){
+                formObj.attr("action", "/board/remove");
+            }else if(operation === "list"){
+                self.location = "board/list";
+                return;
+            }
+            formObj.submit();
+        })
+    })
 </script>
+
 <%@include file="../includes/footer.jsp"%>
+
+

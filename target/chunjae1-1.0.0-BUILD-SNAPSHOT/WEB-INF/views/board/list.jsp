@@ -79,8 +79,10 @@
 
         checkModal(result);
 
+        history.replaceState({}, null, null);
+
         function checkModal(result) {
-            if(result ==='') {
+            if(result ==='' || history.state) {//뒤로가기시 다시 등록되지 않기위해서 사용
                 return;
             }
             if(parseInt(result)>0) {

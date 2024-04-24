@@ -7,7 +7,7 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Board Register</h1>
+        <h1 class="page-header">게시물 등록</h1>
     </div>
     <!-- /.col-lg-12 -->
 </div>
@@ -34,9 +34,8 @@
                     <div class="form-group">
                         <label>Writer</label> <input class="form-control" name='writer'>
                     </div>
-                    <button type="submit" class="btn btn-default">Submit
-                        Button</button>
-                    <button type="reset" class="btn btn-default">Reset Button</button>
+                    <button type="submit" class="btn btn-default">등록하기</button>
+                    <button type="reset" class="btn btn-default">리셋</button>
                 </form>
 
             </div>
