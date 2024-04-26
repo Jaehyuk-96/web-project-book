@@ -21,8 +21,7 @@
             <!-- /.panel-heading -->
             <div class="panel-body">
 
-                <form id ='operForm' action="/board/modify" method="get">
-                    <input type = 'hidden' id='bno' name='bno' value ='<c:out value="${boardDTO.bno}"/>'>
+
 
                     <div class="form-group">
                         <label>Bno</label> <input class="form-control" name='bno'
@@ -48,7 +47,10 @@
                     <button data-oper="list" class = "btn btn-info">List</button>
 <%--                    나중을 위해서 링크를 거는게아니라 javascript로 바꿈--%>
 
-                </form>
+                    <form id ='operForm' action="/board/modify" method="get">
+                        <input type = 'hidden' id='bno' name='bno' value ='<c:out value="${boardDTO.bno}"/>'>
+                    </form>
+
 
             </div>
             <!--  end panel-body -->
@@ -61,7 +63,7 @@
 <!-- /.row -->
 
 <script type="text/javascript">
-    $(documnet).ready(function(){
+    $(document).ready(function(){
         var operForm = $("#operForm");
         $("button[data-oper='modify']").on("click", function(e){
             operForm.attr("action","/board/modify").submit();

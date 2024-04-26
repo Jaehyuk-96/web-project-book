@@ -34,13 +34,14 @@
                         <th>수정일</th>
                     </tr>
                     </thead>
-                    <c:forEach items = "${list}" var="board">
+                    <c:forEach items = "${pageResponseDTO.dtoList}" var="boardDTO">
                         <tr>
-                        <td><c:out value ="${board.bno}"/></td>
-                        <td><c:out value ="${board.title}"/></td>
-                        <td><c:out value ="${board.writer}"/></td>
-                        <td><fmt:formatDate pattern = "yyyy-MM-dd" value = "${board.regDate}"/></td>
-                        <td><fmt:formatDate pattern = "yyyy-MM-dd" value = "${board.updateDate}"/></td>
+                        <th><c:out value ="${boardDTO.bno}"/></th>
+                            <td><a href="'/board/get?bno=${boardDTO.bno}&${pageRequestDTO.link}" class="text-decoration-none" data-bno="${boardDTO.bno}"><c:out value ="${boardDTO.title}"/></a></td>
+
+                        <td><c:out value ="${boardDTO.writer}"/></td>
+                        <td><fmt:formatDate pattern = "yyyy-MM-dd" value = "${boardDTO.regDate}"/></td>
+                        <td><fmt:formatDate pattern = "yyyy-MM-dd" value = "${boardDTO.updateDate}"/></td>
                         </tr>
                     </c:forEach>
                 </table>
@@ -73,6 +74,25 @@
     </div>
 </div>
 
+<div class = "float-end">
+    <ul class="pagination flex-wrap">
+        <c:if test = "${pageResponseDTO.prev}">
+            <li class = "page-item">
+                <a class = "page-link" data-num ="${pageResponseDTO.start - 1}">Previous</a>
+            </li>
+        </c:if>
+        <c:forEach begin = "${pageResponseDTO.start}" end = "${pageResponseDTO.end}" var="num">
+            <li class = "page=item ${pageResponseDTO.page == num? "active":""}"><a class = "page-link" data-num = "${num}" >${num}</a></li>
+        </c:forEach>
+
+        <c:if test = "${pageResponseDTO.next}">
+            <li class = "page-item">
+                <a class = "page-link" data-num = "${pageResponseDTO.end + 1}">Next</a>
+            </li>
+        </c:if>
+    </ul>
+</div>
+
 <script type = "text/javascript">
     $(document).ready(function(){
         var result = '<c:out value = "${result}"/>';
@@ -97,6 +117,30 @@
         });
 
     });
+
+
+</script>
+
+
+<script>
+<%--    페이징처리--%>
+
+document.querySelector(".pagination").addEventListener("click", function (e) {
+    e.preventDefault()
+    e.stopPropagation()
+
+    const target = e.target
+
+    if(target.tagName !== 'A') {
+        //a태그를 클릭했을경우만
+        return
+    }
+    const num = target.getAttribute("data-num")
+    //data-num 속성값을 읽어옴
+
+
+    self.location = `/board/list?page=\${num}`},false)
+// 백틱을 사용하면 문자열 결합에 +를 이용해야 하는 불편함을 줄임
 
 
 </script>

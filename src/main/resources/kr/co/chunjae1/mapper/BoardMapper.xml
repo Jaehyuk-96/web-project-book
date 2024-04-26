@@ -7,12 +7,19 @@
         select * from tb_board
     </select>
 
+    <select id = "selectList" resultType="kr.co.chunjae1.domain.BoardDTO">
+        select * from tb_board order by bno desc limit #{skip}, #{size}
+    </select>
+
     <insert id="insert" parameterType="kr.co.chunjae1.domain.BoardDTO" useGeneratedKeys="true" keyProperty="bno">
         insert into tb_board(title, content, writer) values(#{title}, #{content}, #{writer})
     </insert>
 
     <select id="read" parameterType="Long" resultType="kr.co.chunjae1.domain.BoardDTO">
         select * from tb_board where bno = #{bno}
+    </select>
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(bno) from tb_board
     </select>
 
     <delete id="delete" parameterType="Long" >

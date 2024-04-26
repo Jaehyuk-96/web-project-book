@@ -60,6 +60,7 @@
 
 <script type="text/javascript">
     //자바스크립트를 이용하여 버튼클릭시 url이동
+    //버튼세개를 modify를 눌렀을때는 submit되고 그외에 눌렀을때 처리를 위해 javascript사용
     $(document).ready(function(){
         var formObj = $("form");
 
@@ -74,7 +75,8 @@
             if(operation === "remove"){
                 formObj.attr("action", "/board/remove");
             }else if(operation === "list"){
-                self.location = "board/list";
+                formObj.attr("action", "/board/list").attr("method", "get");
+                formObj.empty();
                 return;
             }
             formObj.submit();

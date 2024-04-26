@@ -2,6 +2,8 @@ package kr.co.chunjae1.service;
 
 
 import kr.co.chunjae1.domain.BoardDTO;
+import kr.co.chunjae1.domain.PageRequestDTO;
+import kr.co.chunjae1.domain.PageResponseDTO;
 import kr.co.chunjae1.mapper.BoardMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -38,5 +40,20 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public List<BoardDTO> getList() {
         return boardMapper.getList();
+    }
+
+    @Override
+    public PageResponseDTO<BoardDTO> getListWithPaging(PageRequestDTO pageRequestDTO) {
+        List<BoardDTO> boardDTOList = boardMapper.selectList(pageRequestDTO);
+
+        int total = boardMapper.getCount(pageRequestDTO);
+
+        PageResponseDTO<BoardDTO> pageResponseDTO = PageResponseDTO.<BoardDTO>withAll()
+                .dtoList(boardDTOList)
+                .total(total)
+                .pageRequestDTO(pageRequestDTO)
+                .build();
+
+        return pageResponseDTO;
     }
 }

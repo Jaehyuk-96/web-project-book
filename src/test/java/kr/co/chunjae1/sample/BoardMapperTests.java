@@ -3,7 +3,10 @@ package kr.co.chunjae1.sample;
 
 
 import kr.co.chunjae1.domain.BoardDTO;
+import kr.co.chunjae1.domain.PageRequestDTO;
+import kr.co.chunjae1.domain.PageResponseDTO;
 import kr.co.chunjae1.mapper.BoardMapper;
+import kr.co.chunjae1.service.BoardService;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 import org.junit.Test;
@@ -12,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.List;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
 @Log4j
@@ -19,6 +24,11 @@ public class BoardMapperTests {
 
     @Setter(onMethod_ = @Autowired)
     private BoardMapper boardMapper;
+
+    @Setter(onMethod_ = @Autowired)
+    private BoardService boardService;
+
+
 
     @Test
     public void testGetList() {
@@ -59,5 +69,32 @@ public class BoardMapperTests {
 
         int result = boardMapper.update(boardDTO);
         log.info("update result:" + result);
+    }
+
+    @Test
+    public void testSelectList() {
+
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                .page(1)
+                .size(10)
+                .build();
+
+        List<BoardDTO> BoardList = boardMapper.selectList(pageRequestDTO);
+
+        BoardList.forEach(DTO -> log.info(DTO));
+    }
+
+    @Test
+    public void testPaging() {
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                .page(1)
+                .size(10)
+                .build();
+
+        PageResponseDTO<BoardDTO> pageResponseDTO = boardService.getListWithPaging(pageRequestDTO);
+
+        log.info(pageResponseDTO);
+
+        pageResponseDTO.getDtoList().stream().forEach(boardDTO -> log.info(boardDTO));
     }
 }
