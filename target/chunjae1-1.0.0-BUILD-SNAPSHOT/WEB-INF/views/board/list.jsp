@@ -37,7 +37,7 @@
                     <c:forEach items = "${pageResponseDTO.dtoList}" var="boardDTO">
                         <tr>
                         <th><c:out value ="${boardDTO.bno}"/></th>
-                            <td><a href="'/board/get?bno=${boardDTO.bno}&${pageRequestDTO.link}" class="text-decoration-none" data-bno="${boardDTO.bno}"><c:out value ="${boardDTO.title}"/></a></td>
+                            <td><a href="/board/get?bno=${boardDTO.bno}&${pageRequestDTO.link}" class="text-decoration-none" data-bno="${boardDTO.bno}"><c:out value ="${boardDTO.title}"/></a></td>
 
                         <td><c:out value ="${boardDTO.writer}"/></td>
                         <td><fmt:formatDate pattern = "yyyy-MM-dd" value = "${boardDTO.regDate}"/></td>

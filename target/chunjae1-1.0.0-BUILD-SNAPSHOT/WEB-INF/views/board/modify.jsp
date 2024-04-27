@@ -23,6 +23,9 @@
 
                 <form role="form" action="/board/modify" method="post">
 
+                    <input type = "hidden" name="page" value="${pageRequestDTO.page}">
+                    <input type = "hidden" name="size" value="${pageRequestDTO.size}">
+
                     <div class="form-group">
                         <label>Bno</label> <input class="form-control" name='bno'
                                                   value = '<c:out value="${boardDTO.bno}"/>'  readonly = "readonly">
@@ -75,8 +78,7 @@
             if(operation === "remove"){
                 formObj.attr("action", "/board/remove");
             }else if(operation === "list"){
-                formObj.attr("action", "/board/list").attr("method", "get");
-                formObj.empty();
+                self.location = "/board/list?${pageRequestDTO.link}"
                 return;
             }
             formObj.submit();

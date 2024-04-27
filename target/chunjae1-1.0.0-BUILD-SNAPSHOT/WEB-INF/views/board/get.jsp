@@ -47,9 +47,9 @@
                     <button data-oper="list" class = "btn btn-info">List</button>
 <%--                    나중을 위해서 링크를 거는게아니라 javascript로 바꿈--%>
 
-                    <form id ='operForm' action="/board/modify" method="get">
-                        <input type = 'hidden' id='bno' name='bno' value ='<c:out value="${boardDTO.bno}"/>'>
-                    </form>
+<%--                    <form id ='operForm' action="/board/modify" method="get">--%>
+<%--                        <input type = 'hidden' id='bno' name='bno' value ='<c:out value="${boardDTO.bno}"/>'>--%>
+<%--                    </form>--%>
 
 
             </div>
@@ -64,15 +64,14 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        var operForm = $("#operForm");
+        // var operForm = $("#operForm");
         $("button[data-oper='modify']").on("click", function(e){
-            operForm.attr("action","/board/modify").submit();
+            self.location = `/board/modify?bno=${boardDTO.bno}&${pageRequestDTO.link}`
         });
 
         $("button[data-oper='list']").on("click", function(e) {
-            operForm.find("#bno").remove();
-            operForm.attr("action", "/board/list")
-            operForm.submit();
+            self.location = "/board/list?${pageRequestDTO.link}"
+            //list버튼을 눌렀을때 원래의 페이지로 돌아감
         });
     });
 </script>

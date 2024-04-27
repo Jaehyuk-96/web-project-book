@@ -54,17 +54,19 @@ public class BoardController {
     }
 
     @GetMapping({"/get", "/modify"})
-            public void get(@RequestParam("bno") Long bno, Model model) {
+    public void get(@RequestParam("bno") Long bno, Model model, PageRequestDTO pageRequestDTO){
         log.info("/get or modify");
         BoardDTO boardDTO = boardService.get(bno);
         model.addAttribute("boardDTO", boardDTO);
     }
 
     @PostMapping("/modify")
-    public String modfiy(BoardDTO boardDTO, RedirectAttributes redirectAttributes) {
+    public String modfiy(PageRequestDTO pageRequestDTO, BoardDTO boardDTO, RedirectAttributes redirectAttributes) {
         log.info("modify:"+ boardDTO);
 
         if(boardService.modify(boardDTO)) {
+            redirectAttributes.addAttribute("page", pageRequestDTO.getPage());
+            redirectAttributes.addAttribute("size", pageRequestDTO.getSize());
             redirectAttributes.addFlashAttribute("result", "success");
         }
 
