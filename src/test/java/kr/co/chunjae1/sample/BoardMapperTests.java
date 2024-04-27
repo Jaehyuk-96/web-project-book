@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -29,14 +30,13 @@ public class BoardMapperTests {
     private BoardService boardService;
 
 
-
     @Test
     public void testGetList() {
         boardMapper.getList().forEach(board -> log.info(board));
     }
 
     @Test
-    public void tesInsert(){
+    public void tesInsert() {
         BoardDTO boardDTO = new BoardDTO();
         boardDTO.setTitle("새로 작성하는글");
         boardDTO.setContent("새로 작성하는 내용");
@@ -46,21 +46,21 @@ public class BoardMapperTests {
     }
 
     @Test
-    public void testRead(){
+    public void testRead() {
         BoardDTO boardDTO = boardMapper.read(1L);
 
         log.info(boardDTO);
     }
 
     @Test
-    public void testDelete(){
+    public void testDelete() {
         int result = boardMapper.delete(1L);
 
         log.info(result);
     }
 
     @Test
-    public void testUdpate(){
+    public void testUdpate() {
         BoardDTO boardDTO = new BoardDTO();
         boardDTO.setBno(2L);
         boardDTO.setTitle("수정된 제목");
@@ -97,4 +97,22 @@ public class BoardMapperTests {
 
         pageResponseDTO.getDtoList().stream().forEach(boardDTO -> log.info(boardDTO));
     }
+
+    @Test
+    public void testSelectSearch() {
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                .page(1)
+                .size(10)
+                .types(new String[]{"t", "w"})
+                .keyword("안녕")
+                .from(LocalDate.of(2024,04,25))
+                .to(LocalDate.of(2022,12,31))
+                .build();
+
+        List<BoardDTO> boardDTOList = boardMapper.selectList(pageRequestDTO);
+
+        boardDTOList.forEach(boardDTO -> log.info(boardDTO));
+    }
 }
+
+

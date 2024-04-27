@@ -22,6 +22,7 @@
             </div>
 
 
+
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <table class="table table-striped table-bordered table-hover">
@@ -93,6 +94,37 @@
     </ul>
 </div>
 
+<div>
+    <button id="showSearchButton">검색</button>
+</div>
+
+<div class = "row content" style="display: none">
+    <div class = "card">
+        <div class = "card-body">
+            <h5 class = "card-title">Search</h5>
+            <form action = "/board/list" method="get">
+                <input type = "hidden" name="size" value = "${pageRequestDTO.size}">
+                <div class = "mb-3">
+                    <input type = "checkbox" name = "types" value="t" ${pageRequestDTO.checkType("t")?"checked":""}>제목
+                    <input type = "checkbox" name = "types" value="w" ${pageRequestDTO.checkType("w")?"checked":""}>작성자
+                    <input type = "text" name = "keyword" class = "form-control" placeholder="내용을 입력하세요"
+                           value='<c:out value="${pageRequestDTO.keyword}"/>'>
+                </div>
+                <div class = "input-group mb-3 dueDateDiv">
+                    <input type = "date" name="from" class = "form-control" value="${pageRequestDTO.from}">
+                    <input type = "date" name="to" class = "form-control" value="${pageRequestDTO.to}">
+                </div>
+                <div class = "input-group mb-3">
+                    <div class = "float-end">
+                        <button class = "btn btn-primary" type="submit">검색</button>
+                        <button class = "btn btn-info clearBtn" type="reset">초기화</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script type = "text/javascript">
     $(document).ready(function(){
         var result = '<c:out value = "${result}"/>';
@@ -138,11 +170,45 @@ document.querySelector(".pagination").addEventListener("click", function (e) {
     const num = target.getAttribute("data-num")
     //data-num 속성값을 읽어옴
 
+    //페이징 버튼 클릭시 검색 조건 유지시키기
+    const formObj = document.querySelector("form")
 
-    self.location = `/board/list?page=\${num}`},false)
+    formObj.innerHTML += `<input type = 'hidden' name = 'page' value = '\${num}'>`
+
+    formObj.submit();},false)
 // 백틱을 사용하면 문자열 결합에 +를 이용해야 하는 불편함을 줄임
 
 
 </script>
+
+<script>
+    // HTML 요소를 가져옵니다.
+    const searchButton = document.getElementById('showSearchButton');
+    const searchForm = document.querySelector('.row.content');
+
+    // Search 버튼 클릭 시 이벤트를 처리합니다.
+    searchButton.addEventListener('click', function(event) {
+        // 검색 폼의 현재 표시 상태를 확인합니다.
+        const isFormVisible = searchForm.style.display !== 'none';
+
+        // 표시 상태를 변경합니다.
+        if (isFormVisible) {
+            searchForm.style.display = 'none'; // 숨김
+        } else {
+            searchForm.style.display = 'block'; // 표시
+        }
+    });
+</script>
+
+<script>
+    document.querySelector(".clearBtn").addEventListener("click", function(e){
+        e.preventDefault()
+        e.stopPropagation()
+
+        self.location = '/board/list'
+    },false)
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 <%@include file="../includes/footer.jsp"%>

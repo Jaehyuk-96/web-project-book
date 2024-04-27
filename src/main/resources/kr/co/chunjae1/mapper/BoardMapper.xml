@@ -7,8 +7,31 @@
         select * from tb_board
     </select>
 
+    <sql id = "search">
+        <where>
+            <if test = "types != null and types.length >0">
+                <foreach collection="types" item="type" open="(" close=")" separator=" OR ">
+                    <if test ="type == 't'.toString()">
+                        title like concat('%', #{keyword}, '%')
+                    </if>
+                    <if test ="type == 'w'.toString()">
+                        writer like concat('%', #{keyword}, '%')
+                    </if>
+                </foreach>
+            </if>
+
+            <if test = "from !=null and to != null">
+                <trim prefix = "and">
+                    updateDate between #{from} and #{to}
+                </trim>
+            </if>
+        </where>
+    </sql>
+
     <select id = "selectList" resultType="kr.co.chunjae1.domain.BoardDTO">
-        select * from tb_board order by bno desc limit #{skip}, #{size}
+        select * from tb_board
+                 <include refid="search"></include>
+                 order by bno desc limit #{skip}, #{size}
     </select>
 
     <insert id="insert" parameterType="kr.co.chunjae1.domain.BoardDTO" useGeneratedKeys="true" keyProperty="bno">
@@ -20,6 +43,7 @@
     </select>
     <select id="getCount" resultType="java.lang.Integer">
         select count(bno) from tb_board
+        <include refid="search"></include>
     </select>
 
     <delete id="delete" parameterType="Long" >
