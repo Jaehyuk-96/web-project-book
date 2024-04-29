@@ -1,6 +1,8 @@
 package kr.co.chunjae1.sample;
 
 
+import kr.co.chunjae1.domain.Criteria;
+import kr.co.chunjae1.domain.PageResponseDTO;
 import kr.co.chunjae1.domain.ReplyDTO;
 import kr.co.chunjae1.mapper.ReplyMapper;
 import lombok.Setter;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.List;
 import java.util.stream.IntStream;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -46,5 +49,33 @@ public class ReplyMapperTests {
         Long testRNO = 5L;
         ReplyDTO replyDTO = replyMapper.read(testRNO);
         log.info(replyDTO);
+    }
+
+    @Test
+    public void testDelete() {
+        Long testrno = 1L;
+        replyMapper.delete(testrno);
+    }
+
+    @Test
+    public void testUpdate() {
+        Long testRNO = 10L;
+
+        ReplyDTO replyDTO = replyMapper.read(testRNO);
+
+        replyDTO.setReply("Update Reply");
+
+        int count = replyMapper.update(replyDTO);
+
+        log.info("UPDATE COUNT:" + count);
+    }
+
+    @Test
+    public void testList() {
+        Criteria criteria = new Criteria();
+
+        List<ReplyDTO> replyDTOList = replyMapper.getListWithPaging(criteria, bnoArr[0]);
+
+        replyDTOList.forEach(reply -> log.info(reply));
     }
 }

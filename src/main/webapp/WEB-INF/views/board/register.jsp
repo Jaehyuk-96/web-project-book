@@ -47,4 +47,114 @@
     <!-- end panel -->
 </div>
 <!-- /.row -->
+
+<div class = "row">
+    <div class = "col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class = "form-group uploadDiv">
+                    <input type ="file" name = 'uplaodFile' multiple>
+                </div>
+                <div class = 'uploadResult'>
+                    <ul>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <%@include file="../includes/footer.jsp"%>
+
+<script>
+    $(document).ready(function(e){
+        var formObj = $("form[role='form']");
+
+        $("button[type='submit']").on("click", function(e){
+            e.preventDefault();
+
+            console.log("submit clicked");
+        });
+    var regex = new RegExp("(.*?)\.(exp|sh|zip|alz)$");
+    var maxSize = 5242880;
+
+    function checkExtension(fileName, fileSize) {
+        if(fileSize >= maxSize){
+            alert("파일 사이즈 초과");
+            return false;
+        }
+
+        if(regex.test(fileName)){
+            alert("해당 종류의 파일은 업로드할 수 없습니다.");
+            return false;
+        }
+        return true;
+    }
+
+    $("input[type='file']").change(function(e) {
+        var formData = new FormData();
+
+        var inputFile = $("input[name='uploadFile']");
+
+        var files = inputFile[0].files;
+
+        for (var i = 0; i < files.length; i++) {
+
+            if (!checkExtension(files[i].name, files[i].size)) {
+                return false;
+            }
+            formData.append("uploadFile", files[i]);
+        }
+
+        $.ajax({
+            url: '/upload',
+            processData: false,
+            contentType: false, data:
+            formData, type: 'POST',
+            dataType: 'json',
+            success: function (result) {
+                console.log(result);
+                showUploadResult(result);
+
+            }
+        });
+    });
+
+        function showUploadResult(uploadResultArr){
+            if(!uploadResultArr || uploadResultArr.length == 0){
+                return;
+            }
+
+            var uploadUL = $(".uploadResult ul");
+
+            var str = "";
+
+            ${uploadResultArr}.each(function(i, obj){
+
+                if(obj.image){
+
+                }else {
+
+                }
+
+            });
+
+            uploadUL.append(str);
+        }
+    });
+
+    if(obj.image) {
+        var fileCallPath = encodeURIComponent(obj.uploadPath+ "/s_" +obj.uuid +"_" +obj.fileName);
+        str += "<li><div>" ;
+        str += "<span>" +obj.fileName+"</span>" ;
+        str += "<button type='button' class = 'btn btn-warning btn-circle'><i class='fa fa-times'></i>" +
+            "</button><br>" ;
+        str += "<img src='/displya?fileName="+fileCallPath+"'>";
+        str += "<div>";
+        str +"</li>";
+    }else {
+        
+    }
+
+
+</script>

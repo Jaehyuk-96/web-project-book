@@ -12,4 +12,19 @@
     <select id ="read" resultType="kr.co.chunjae1.domain.ReplyDTO">
         select * from tb_reply where rno = #{rno}
     </select>
+
+    <delete id = "delete">
+        delete from tb_reply where rno = #{rno}
+    </delete>
+
+    <update id = "update">
+        update tb_reply set reply = #{reply}, updatedate = now() where rno = #{rno}
+    </update>
+
+    <select id="getListWithPaging" resultType="kr.co.chunjae1.domain.ReplyDTO">
+        select bno, reply, replyer, replyDate, updateDate
+        from tb_reply
+        where bno = #{bno}
+        order by rno asc
+    </select>
 </mapper>
